@@ -1,0 +1,67 @@
+---
+title: "Assignment 3 DATA 607"
+author: "Neil Hodgkinson"
+date: "2022-09-18"
+output: html_document
+---
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+library (readr)
+library(stringr)
+library(tidyverse)
+
+urlfile="https://raw.githubusercontent.com/Nhodgkinson/data/master/college-majors/majors-list.csv"
+
+mydata<-read_csv(url(urlfile))
+
+
+```
+
+## Exercise 1
+
+```{r ex1}
+maj <- str_detect(string=mydata$Major, "DATA|STATISTICS", negate=FALSE)
+mydata[maj, c("Major")]
+```
+
+## Exercise 2
+
+"bell pepper"  "bilberry"     "blackberry"   "blood orange"
+
+"blueberry"    "cantaloupe"   "chili pepper" "cloudberry"  
+
+ "elderberry"   "lime"         "lychee"       "mulberry"    
+
+ "olive"        "salal berry"
+
+```{r ex2}
+
+str_c(fruit, collapse = "', '")
+
+```
+
+
+## Exercise 3
+
+    (.)\1\1 : Matches any 3 like characters in a row
+    "(.)(.)\\2\\1" : Matches 2 seperate characters that repeat in reverse order
+    (..)\1 :  2 characters that repeat
+    "(.).\\1.\\1" : matches a character the repeats after another character. 
+    "(.)(.)(.).*\\3\\2\\1" : three characters followed by any number of characters tailed by the original 3 characters in reverse
+
+
+## Exercise 4
+
+```{r ex4}
+#Start and end with the same character.
+str_subset(fruit, "^(.)((.*\\1$)|\\1?$)")
+
+#Contain a repeated pair of letters (e.g. "church" contains "ch" repeated twice.)
+str_subset(fruit, "([A-Za-z][A-Za-z]).*\\1")
+
+#Contain one letter repeated in at least three places (e.g. "eleven" contains three "e"s.)
+str_subset(fruit, "([a-z]).*\\1.*\\1")
+
+```
+
